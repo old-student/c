@@ -9,8 +9,8 @@ typedef struct _list_t_ {
 } list_t;
 
 typedef struct _hash_set_t_ {
-  int size;     // actual number of elements
-  int capacity; // overall number of buckets
+  size_t size;     // actual number of elements
+  size_t capacity; // overall number of buckets
   list_t **buckets;
 } hash_set_t;
 
@@ -19,7 +19,7 @@ typedef struct _hash_set_t_ {
    @param is an initial capacity of hash set.
    @return a pointer to a created empty hash set
  */
-hash_set_t* create_hash_set(int capacity);
+hash_set_t* create_hash_set(size_t capacity);
 
 /**
    Releases memory occupied by a hash set.

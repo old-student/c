@@ -18,8 +18,8 @@ double load_factor(const hash_set_t *hash_set) {
    @param is an initial capacity of hash set.
    @return a pointer to a created empty hash set
  */
-hash_set_t* create_hash_set(int capacity) {
-  if (capacity < 1) return NULL;
+hash_set_t* create_hash_set(size_t capacity) {
+  if (capacity == 0) return NULL;
 
   hash_set_t *hash_set;
   // attempt to allocate memory for the hash set structure
@@ -33,7 +33,7 @@ hash_set_t* create_hash_set(int capacity) {
   // initialize hash set
   hash_set->size = 0;
   hash_set->capacity = capacity;
-  for (int i = 0; i < capacity; ++i)
+  for (size_t i = 0; i < capacity; ++i)
     hash_set->buckets[i] = NULL;
 
   return hash_set;
@@ -46,7 +46,7 @@ hash_set_t* create_hash_set(int capacity) {
 void free_hash_set(hash_set_t *hash_set) {
   if (!hash_set) return;  
   // free content of all buckets
-  for(int i = 0; i < hash_set->capacity; ++i) {
+  for(size_t i = 0; i < hash_set->capacity; ++i) {
     list_t *tmp, *list = hash_set->buckets[i];
     while (list) {
       tmp = list;
@@ -67,7 +67,7 @@ void free_hash_set(hash_set_t *hash_set) {
 void print_hash_set(FILE *stream, const hash_set_t *hash_set) {
   if (!hash_set) return;
   fprintf(stream, "Elements of hash set:\n");
-  for(int i = 0; i < hash_set->capacity; ++i) {
+  for(size_t i = 0; i < hash_set->capacity; ++i) {
     list_t *list = hash_set->buckets[i];
     while (list) {
       fprintf(stream, "%s\n", list->str);
@@ -119,11 +119,11 @@ int contains(const hash_set_t *hash_set, const char *str) {
    @param hash_set is a pointer to a hash set.
    @param new_capacity is a new capacity value.
 */
-void resize(hash_set_t *hash_set, int new_capacity) {
+void resize(hash_set_t *hash_set, size_t new_capacity) {
   //printf("Resizing. New capacity = %d\n", new_capacity);
   hash_set_t *new_hash_set = create_hash_set(new_capacity);
   // put all elements from existing set into new one
-  for(int i = 0; i < hash_set->capacity; ++i) {
+  for(size_t i = 0; i < hash_set->capacity; ++i) {
     list_t *list = hash_set->buckets[i];
     while (list) {
       insert(new_hash_set, list->str);
